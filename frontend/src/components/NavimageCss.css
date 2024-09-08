@@ -1,0 +1,10 @@
+.navimage {
+    display: flex;
+    height: 55vh;
+}
+
+.navimage img {
+    flex: 1;
+    height: 100%;
+    object-fit: full; 
+}

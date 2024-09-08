@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Space between the logo and the icons */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-logo {
+  width: 100px; 
+  height: 20px; 
+}
+
+.logo {
+  display: flex;
+  gap: 10px; 
+}
+
+.nav-icon {
+  width: 24px; 
+  height: 24px; 
+  cursor: pointer;
+}
+
+.nav-icon:hover {
+  opacity: 0.8; 
+}

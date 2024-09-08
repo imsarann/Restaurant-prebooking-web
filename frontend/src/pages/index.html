@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Booking and Food Ordering System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #007bff;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+        }
+        input, button {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .reservations {
+            margin-top: 20px;
+        }
+        .reservation {
+            background-color: #f1f1f1;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .reservation button {
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            align-self: flex-end;
+        }
+        .reservation button:hover {
+            background-color: #c82333;
+        }
+        .food-order {
+            margin-top: 10px;
+        }
+        .food-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .food-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        .food-item label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .food-item span {
+            margin-left: 10px;
+            color: #6c757d;
+        }
+        #orderConfirmation {
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 100%;
+            max-width: 400px;
+        }
+        #orderConfirmation button {
+            margin-top: 10px;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Restaurant Booking and Food Ordering System</h1>
+        <form id="reservationForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" required>
+
+            <label for="time">Time:</label>
+            <input type="time" id="time" required>
+
+            <label for="numPeople">Number of People:</label>
+            <input type="number" id="numPeople" required>
+
+            <label for="foodOrder">Food Order:</label>
+            <div id="foodOrder">
+                <div class="food-item">
+                    <input type="checkbox" id="pasta" value="Pasta" data-price="12">
+                    <label for="pasta">
+                        <img src="https://via.placeholder.com/50" alt="Pasta">
+                        Pasta <span>$12</span>
+                    </label>
+                </div>
+                <div class="food-item">
+                    <input type="checkbox" id="pizza" value="Pizza" data-price="15">
+                    <label for="pizza">
+                        <img src="https://via.placeholder.com/50" alt="Pizza">
+                        Pizza <span>$15</span>
+                    </label>
+                </div>
+                <div class="food-item">
+                    <input type="checkbox" id="salad" value="Salad" data-price="10">
+                    <label for="salad">
+                        <img src="https://via.placeholder.com/50" alt="Salad">
+                        Salad <span>$10</span>
+                    </label>
+                </div>
+                <div class="food-item">
+                    <input type="checkbox" id="burger" value="Burger" data-price="11">
+                    <label for="burger">
+                        <img src="https://via.placeholder.com/50" alt="Burger">
+                        Burger <span>$11</span>
+                    </label>
+                </div>
+                <div class="food-item">
+                    <input type="checkbox" id="steak" value="Steak" data-price="20">
+                    <label for="steak">
+                        <img src="https://via.placeholder.com/50" alt="Steak">
+                        Steak <span>$20</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit">Make Reservation</button>
+        </form>
+
+        <div id="reservations" class="reservations">
+            <h2>Reservations</h2>
+            <div id="reservationList"></div>
+        </div>
+    </div>
+
+    <div id="orderConfirmation">
+        <h2>Order Confirmation</h2>
+        <div id="orderSummary"></div>
+        <button id="confirmOrder">Confirm</button>
+        <button id="cancelOrder">Cancel</button>
+    </div>
+    <div id="overlay"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const reservationForm = document.getElementById('reservationForm');
+            const reservationList = document.getElementById('reservationList');
+            const orderConfirmation = document.getElementById('orderConfirmation');
+            const orderSummary = document.getElementById('orderSummary');
+            const overlay = document.getElementById('overlay');
+
+            function loadReservations() {
+                reservationList.innerHTML = '';
+                const reservations = JSON.parse(localStorage.getItem('reservations')) || {};
+                for (const [datetime, reservationsArray] of Object.entries(reservations)) {
+                    for (const reservation of reservationsArray) {
+                        const div = document.createElement('div');
+                        div.className = 'reservation';
+                        div.innerHTML = `
+                            <strong>${reservation.name}</strong> - ${datetime} - ${reservation.numPeople} people
+                            <div class="food-order"><strong>Food Order:</strong> ${reservation.foodOrder.map(item => ${item.name} ($${item.price})).join(', ')}</div>
+                            <button onclick="cancelReservation('${reservation.name}', '${datetime}')">Cancel</button>`;
+                        reservationList.appendChild(div);
+                    }
+                }
+            }
+
+            window.cancelReservation = (name, datetime) => {
+                const reservations = JSON.parse(localStorage.getItem('reservations')) || {};
+                if (reservations[datetime]) {
+                    reservations[datetime] = reservations[datetime].filter(res => res.name !== name);
+                    if (reservations[datetime].length === 0) {
+                        delete reservations[datetime];
+                    }
+                    localStorage.setItem('reservations', JSON.stringify(reservations));
+                    loadReservations();
+                }
+            };
+
+            reservationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+                const numPeople = document.getElementById('numPeople').value;
+                const foodOrderCheckboxes = document.querySelectorAll('#foodOrder input[type="checkbox"]:checked');
+                const foodOrder = Array.from(foodOrderCheckboxes).map(checkbox => ({
+                    name: checkbox.value,
+                    price: checkbox.dataset.price
+                }));
+                const datetime = ${date} ${time};
+
+                // Display order confirmation
+                let orderDetails = `
+                    <p><strong>Name:</strong> ${name}</p>

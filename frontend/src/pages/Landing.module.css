@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+
+.trending-text {
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive, 'Arial', sans-serif;
+  font-size: 36px;
+}
+.container{
+  background : #f4f8fd;
+}

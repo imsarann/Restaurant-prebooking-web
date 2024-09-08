@@ -1,0 +1,36 @@
+/* ScrollingCss.css */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-40%);
+  }
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: #f4f8fd; /* Adjust the background color as needed */
+  padding: 5px 0; /* Adjust the padding as needed */
+  display: flex;
+  align-items: center;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee 20s linear infinite;
+  width: 200%; /* Ensures that two full sets of images are displayed */
+}
+
+.marquee-content div {
+  display: flex;
+}
+
+.marquee-content img {
+  width : 115px;
+  height : 55px;
+  margin: 0 50px; /* Adjust the margin as needed for spacing */
+  paddingBottom: '0px''
+}
+
